@@ -1,3 +1,21 @@
+window.addEventListener("load", getLocalStorageItems);
+function getLocalStorageItems() {
+  const todoLists = getItemsFromLocalStorage();
+  console.log(todoLists);
+  todoLists.forEach(({ checked, value }) => {
+    console.log(checked, value);
+    const divElement = document.createElement("div");
+    divElement.setAttribute("class", "todo-item");
+    divElement.innerHTML = `<input class="check-through" checked="${checked}" type="checkbox" name="" id="todo-item" />
+    <p>${value}</p>
+    <button>
+      <img src="./images/icon-cross.svg" alt="" srcset="" />
+    </button>`;
+    const sectionElement = document.querySelector("section");
+    sectionElement.appendChild(divElement);
+  });
+}
+
 const getItem = document.querySelector("section");
 
 getItem.addEventListener("click", strikeThroughItem);
@@ -5,8 +23,11 @@ function strikeThroughItem({ target }) {
   if (target.tagName === "INPUT") {
     if (target.checked) {
       target.nextElementSibling.classList.add("strike-p");
+      // update checked item
+  
     } else {
       target.nextElementSibling.classList.remove("strike-p");
+    
     }
   }
   // remove items logic
@@ -34,22 +55,32 @@ function addTodoItem({ target }) {
           <img src="./images/icon-cross.svg" alt="" srcset="" />
         </button>`;
       sectionElement.appendChild(divElement);
+
+      // after appending child you save to local storage
+      addDataToLocalStorage();
     }
   }
 }
 
 // local storage implementation
-
 function addDataToLocalStorage() {
   const itemsArray = [];
   const getAllItems = document.querySelectorAll(".todo-item");
   getAllItems.forEach((item) => {
-    console.log(item.children[1].textContent);
     const itemDetail = {
       checked: item.children[0].checked,
-      value: item.children[1].textContent
+      value: item.children[1].textContent,
     };
-    console.log(itemDetail);
+    itemsArray.push(itemDetail);
   });
+  localStorage.setItem("todos", JSON.stringify({ arr: itemsArray }));
+  console.log(localStorage);
 }
-addDataToLocalStorage();
+
+// get items from local storage
+
+function getItemsFromLocalStorage() {
+  const items = window.localStorage.getItem("todos");
+  const itemsArray = JSON.parse(items).arr;
+  return itemsArray;
+}
