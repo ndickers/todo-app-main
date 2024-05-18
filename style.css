@@ -13,6 +13,9 @@
   margin: 0;
   padding: 0;
 }
+body {
+  background: black;
+}
 
 header {
   background: url(./images/bg-mobile-dark.jpg);
@@ -21,7 +24,7 @@ header {
   background-size: cover;
   padding-inline: 1rem;
   padding-block-start: 2rem;
-  padding-block-end: 5rem;
+  padding-block-end: 9rem;
 }
 header div {
   display: flex;
@@ -32,10 +35,13 @@ header img {
   block-size: auto;
   align-items: center;
 }
+
 main {
+  max-inline-size: 400px;
   inline-size: 90%;
   margin-inline: auto;
   color: var(--light-grayish-blue);
+  margin-block-start: -6rem;
 }
 
 h1 {
@@ -51,11 +57,36 @@ h1 {
   padding-inline: 1rem;
   padding-block: 1.2rem;
 }
-.input-element {
-  inline-size: 100%;
+.add-todo div {
+  width: 100%;
   background: var(--very-dark-grayish-blue);
   color: var(--light-grayish-blue);
   border: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.add-todo div input {
+  background: var(--very-dark-grayish-blue);
+  color: var(--light-grayish-blue);
+  padding: 0.7rem;
+  inline-size: 100%;
+  border: none;
+}
+
+.input-checkbox {
+  position: absolute;
+  opacity: 0;
+  height: 2rem;
+  width: 2rem;
+}
+.input-checkbox:checked + div::before {
+  background-image: linear-gradient(
+    to right,
+    hsl(192, 100%, 67%),
+    hsl(280, 87%, 65%)
+  );
+  content: url(./images/icon-check.svg);
 }
 .todo-item {
   display: flex;
@@ -77,4 +108,37 @@ h1 {
 .strike-p {
   text-decoration: line-through;
   color: var(--dark-grayish-blue);
+}
+
+.item-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+.todo-item p {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.todo-item p::before,
+.add-todo div::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  padding: 0.2rem;
+  cursor: pointer;
+  border: 1px solid var(--dark-grayish-blue);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.item-checkbox:checked + p::before {
+  background-image: linear-gradient(
+    to right,
+    hsl(192, 100%, 67%),
+    hsl(280, 87%, 65%)
+  );
+  content: url(./images/icon-check.svg);
 }

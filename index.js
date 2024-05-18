@@ -6,7 +6,7 @@ function getLocalStorageItems() {
     console.log(checked, value);
     const divElement = document.createElement("div");
     divElement.setAttribute("class", "todo-item");
-    divElement.innerHTML = `<input class="check-through" checked="${checked}" type="checkbox" name="" id="todo-item" />
+    divElement.innerHTML = `<input class="check-through item-checkbox" checked="false" type="checkbox" name="" id="todo-item" />
     <p>${value}</p>
     <button>
       <img src="./images/icon-cross.svg" alt="" srcset="" />
@@ -24,15 +24,14 @@ function strikeThroughItem({ target }) {
     if (target.checked) {
       target.nextElementSibling.classList.add("strike-p");
       // update checked item
-  
     } else {
       target.nextElementSibling.classList.remove("strike-p");
-    
     }
   }
   // remove items logic
   if (target.tagName === "IMG") {
     target.parentElement.parentElement.remove();
+    addDataToLocalStorage();
   }
 }
 
@@ -41,16 +40,14 @@ const addItem = document.querySelector(".add-todo");
 addItem.addEventListener("click", addTodoItem);
 
 function addTodoItem({ target }) {
+  const getValue = document.querySelector(".input-element").value;
   const sectionElement = document.querySelector("section");
   if (target.type === "checkbox") {
-    if (target.checked) {
-      const value = target.nextElementSibling.value;
-      console.log(value);
-
+    if (target.checked && getValue !== "") {
       const divElement = document.createElement("div");
       divElement.setAttribute("class", "todo-item");
-      divElement.innerHTML = `<input class="check-through" type="checkbox" name="" id="todo-item" />
-        <p>${value}</p>
+      divElement.innerHTML = `<input checked="false" class="check-through item-checkbox" type="checkbox" name="" id="todo-item" />
+        <p>${getValue}</p>
         <button>
           <img src="./images/icon-cross.svg" alt="" srcset="" />
         </button>`;
